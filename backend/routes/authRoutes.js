@@ -15,10 +15,14 @@ const authTokenHandler = require('../middlewares/checkAuthToken');
 const isProduction = process.env.NODE_ENV === 'production';
 const mailer = async (recieveremail, code) => {
     try {
+        if (!process.env.COMPANY_EMAIL || !process.env.GMAIL_APP_PASSWORD) {
+            throw new Error("Email configuration is missing in environment variables");
+        }
+
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 587,
-            secure: false, // Use TLS (not SSL)
+            secure: false, // Use TLS
             requireTLS: true,
             auth: {
                 user: process.env.COMPANY_EMAIL,
@@ -28,7 +32,6 @@ const mailer = async (recieveremail, code) => {
                 rejectUnauthorized: false, // Ignore self-signed certificate errors
             },
         });
-        
 
         let info = await transporter.sendMail({
             from: `Team EduConnect <${process.env.COMPANY_EMAIL}>`,
@@ -41,39 +44,47 @@ const mailer = async (recieveremail, code) => {
         console.log("Message sent: %s", info.messageId);
         return true;
     } catch (error) {
-        console.error("Error sending email:", error);
+        console.error("Error sending email:", error.message || error);
         return false;
     }
 };
 
-
 router.post('/sendotp', async (req, res, next) => {
     const { email } = req.body;
+
+    // Validate email input
     if (!email) {
-        return responseFunction(res, 400, "Email is required", null, false)
+        return responseFunction(res, 400, "Email is required", null, false);
     }
 
     try {
-        await Verification.deleteMany({ email: email })
+        // Generate OTP
         const code = Math.floor(100000 + Math.random() * 900000);
+
+        // Send email with OTP
         const isSent = await mailer(email, code);
-
-        const newVerification = new Verification({
-            email: email,
-            code: code
-        })
-
-        await newVerification.save();
         if (!isSent) {
-            return responseFunction(res, 500, "Internal server error", null, false)
+            return responseFunction(res, 500, "Failed to send OTP. Please try again later.", null, false);
         }
 
-        return responseFunction(res, 200, "OTP sent successfully", null, true)
+        // Remove existing verifications for the email
+        await Verification.deleteMany({ email });
+
+        // Save the new OTP in the database
+        const newVerification = new Verification({
+            email: email,
+            code: code,
+        });
+
+        await newVerification.save();
+
+        // Respond success
+        return responseFunction(res, 200, "OTP sent successfully", null, true);
+    } catch (err) {
+        console.error("Error processing OTP request:", err.message || err);
+        return responseFunction(res, 500, "Internal server error", err, false);
     }
-    catch (err) {
-        return responseFunction(res, 500, "Internal server error", err, false)
-    }
-})
+});
 
 
 router.post('/register', async (req, res) => {
