@@ -14,24 +14,14 @@ const port = process.env.PORT || 3000;
 require('./db');
 
 // Allowed origins for CORS (ensure FRONTEND_URL is set in .env file)
-const allowedOrigins = [
-    process.env.FRONTEND_URL, // For production
-    'http://localhost:3000', // For local testing (adjust if needed)
-];
+
 
 // CORS Middleware
 app.use(
     cors({
-        origin: function (origin, callback) {
-            // Allow requests from the allowed origins or no origin (e.g., Postman or direct requests)
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error('CORS policy: Not allowed by CORS'), false);
-            }
-        },
-        methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"], // Include OPTIONS for preflight requests
-        credentials: true, // Allow cookies to be sent with requests
+        origin: 'https://edu-connect-sigma.vercel.app', // Frontend URL
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
+        credentials: true, // Allow credentials (cookies)
     })
 );
 
