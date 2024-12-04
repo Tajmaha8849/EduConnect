@@ -14,7 +14,10 @@ const port = process.env.PORT || 3000;
 require('./db');
 
 // Allowed origins for CORS (ensure FRONTEND_URL is set in .env file)
-const allowedOrigins = [process.env.FRONTEND_URL];
+const allowedOrigins = [
+    process.env.FRONTEND_URL, // For production
+    'http://localhost:3000', // For local testing (adjust if needed)
+];
 
 // CORS Middleware
 app.use(
@@ -24,7 +27,7 @@ app.use(
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
             } else {
-                callback(new Error('Not allowed by CORS'));
+                callback(new Error('CORS policy: Not allowed by CORS'), false);
             }
         },
         methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"], // Include OPTIONS for preflight requests
