@@ -218,14 +218,19 @@ router.get('/getuser', authTokenHandler, async (req, res, next) => {
 })
 
 
-router.get('/logout', authTokenHandler, async (req, res, next) => {
-    res.clearCookie('authToken', { httpOnly: true, secure: isProduction, sameSite: 'none' });
-    res.clearCookie('refreshToken', { httpOnly: true, secure: isProduction, sameSite: 'none' });
-
-    res.json({
-        ok: true,
-        message: 'Logged out successfully',
+router.get('/logout', authTokenHandler, async (req, res) => {
+    res.clearCookie('authToken', {
+        httpOnly: true,
+        secure: isProduction, 
+        sameSite: 'none',
     });
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: isProduction, 
+        sameSite: 'none',
+    });
+
+    return responseFunction(res, 200, 'Logged out successfully', null, true);
 });
 
 
