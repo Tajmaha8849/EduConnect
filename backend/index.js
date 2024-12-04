@@ -13,21 +13,21 @@ const port = process.env.PORT || 3000;
 // Import database connection
 require('./db');
 
-// Allowed origins for CORS
-const allowedOrigins = [process.env.FRONTEND_URL]; // Ensure FRONTEND_URL is set in .env file
+// Allowed origins for CORS (ensure FRONTEND_URL is set in .env file)
+const allowedOrigins = [process.env.FRONTEND_URL];
 
 // CORS Middleware
 app.use(
     cors({
         origin: function (origin, callback) {
-            // Allow requests from the allowed origins or no origin (e.g., Postman)
+            // Allow requests from the allowed origins or no origin (e.g., Postman or direct requests)
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
             } else {
                 callback(new Error('Not allowed by CORS'));
             }
         },
-        methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"], // Include OPTIONS for preflight
+        methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"], // Include OPTIONS for preflight requests
         credentials: true, // Allow cookies to be sent with requests
     })
 );
@@ -39,7 +39,7 @@ app.use(
         httpOnly: true, // Secure HTTP-only cookies
         secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
         sameSite: 'none', // Allow cross-origin cookies
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        maxAge: 1000 * 60 * 60 * 24 * 7, // Cookies last for 7 days
     })
 );
 
