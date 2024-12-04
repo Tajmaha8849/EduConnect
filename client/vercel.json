@@ -15,7 +15,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://your-frontend-url.vercel.app" 
+          "value": "https://https://edu-connect-sigma.vercel.app" 
         },
         {
           "key": "Access-Control-Allow-Credentials",
