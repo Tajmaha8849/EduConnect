@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // MongoDB Connection String
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URL = "mongodb+srv://admin:S12hubham@cluster0.bhp3j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Database Name
 const DB_NAME = process.env.DB_NAME || "Forum";
