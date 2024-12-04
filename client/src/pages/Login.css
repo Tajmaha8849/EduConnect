@@ -1,0 +1,90 @@
+/* Login Page Styles */
+.login-page {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%;
+    margin: 120px auto; /* Centers the form and adds space below navbar */
+    text-align: center;
+  }
+  
+  .login-page h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #1a73e8;
+    font-weight: bold;
+  }
+  
+  /* Form Styles */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  input {
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 6px rgba(26, 115, 232, 0.3);
+  }
+  
+  button {
+    background:white;
+    color: #ffffff;
+    border: none;
+    font-weight: bold;
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background: black;
+  }
+  
+  /* Signup Link */
+  .signup-link {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .signup-link p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .signup-link a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .login-page {
+      padding: 20px 25px;
+    }
+  
+    input,
+    button {
+      font-size: 14px;
+      padding: 10px 12px;
+    }
+  }
+  

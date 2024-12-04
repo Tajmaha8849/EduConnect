@@ -1,0 +1,160 @@
+/* Global Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(20, 114, 161);
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Stacks navbar and page content */
+    align-items: center;
+  }
+  
+  /* Navbar Styles */
+  .navbar {
+    width: 100%;
+    background-color: black;
+    padding: 15px 20px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensures navbar stays on top */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 0 15px;
+  }
+  
+  .navbar a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Signup Page Container */
+  .signup-page {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%;
+    margin-top: 100px; /* Adds space below the fixed navbar */
+  }
+  
+  .signup-page h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #1a73e8;
+    font-weight: bold;
+  }
+  
+  /* Form Styles */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  input,
+  select,
+  button {
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus,
+  select:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 6px rgba(26, 115, 232, 0.3);
+  }
+  
+  /* Buttons */
+  button {
+    background: #1a73e8;
+    color: #ffffff;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background: #0f5bbb;
+  }
+  
+  /* Send OTP Button */
+  .send-otp-btn {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    background: #34a853;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+  }
+  
+  .send-otp-btn:hover {
+    background: #218838;
+  }
+  
+  /* Email and OTP Section */
+  .email-otp-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  /* Login Link */
+  .login-link {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .login-link p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .login-link a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .signup-page {
+      padding: 20px 25px;
+    }
+  
+    input,
+    select,
+    button {
+      font-size: 14px;
+      padding: 10px 12px;
+    }
+  
+    .send-otp-btn {
+      font-size: 12px;
+    }
+  }
+  

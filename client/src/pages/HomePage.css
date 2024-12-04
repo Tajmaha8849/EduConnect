@@ -1,0 +1,55 @@
+/* HomePage.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .homepage-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('https://source.unsplash.com/1920x1080/?education,technology') no-repeat center center/cover;
+    color: white;
+  }
+  
+  .homepage-content {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6); /* Add semi-transparent background */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .homepage-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .homepage-description {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    line-height: 1.8;
+  }
+  
+  .explore-button {
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .explore-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(0, 255, 0, 0.4);
+  }
+  

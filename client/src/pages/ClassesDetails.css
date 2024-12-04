@@ -1,0 +1,174 @@
+/* Ensure the page content does not overlap with the navbar */
+.class-details {
+    padding-top: 80px; /* Adjust this value based on your navbar height */
+    margin: 0 auto;
+    max-width: 1200px; /* Limit the width for better readability */
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Section 1 (Classroom details) */
+  .section1 {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .class-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .class-name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .class-description {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .add-post-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-post-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Post grid */
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .post-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .post-card h3 {
+    font-size: 1.2rem;
+    margin: 0 0 10px;
+  }
+  
+  .post-card p {
+    font-size: 1rem;
+    color: #666;
+    margin: 0 0 10px;
+  }
+  
+  .post-card small {
+    font-size: 0.8rem;
+    color: #999;
+  }
+  
+  /* Popup overlay */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .popup-content h3 {
+    margin-bottom: 20px;
+  }
+  
+  .popup-content input,
+  .popup-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .popup-buttons button {
+    flex: 1;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .popup-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .otp-error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: -10px;
+  }
+  
+  /* Loading spinner */
+  .loading {
+    font-size: 1.5rem;
+    color: #007bff;
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  /* Adjust for smaller screens */
+  @media (max-width: 768px) {
+    .section1 {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .class-image {
+      margin-bottom: 10px;
+    }
+  }
+  

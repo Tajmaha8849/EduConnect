@@ -1,0 +1,264 @@
+/* General Styles */
+body {
+    font-family: "Poppins", Arial, sans-serif; /* Modern font for better readability */
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f9f9f9, #eaeaea); /* Subtle gradient background */
+    color: #333;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #007bff;
+    color: #fff;
+    padding: 15px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between; /* Add space for branding and menu options */
+    align-items: center;
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Profile Page Layout */
+.profile-page {
+    width: 95%;
+    max-width: 1400px; /* Wider layout for modern screens */
+    margin: 100px auto 20px; /* Account for navbar height */
+    display: flex;
+    flex-wrap: wrap; /* Wrap for better responsiveness */
+    gap: 30px;
+}
+
+h1, h2, h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 50px;
+    color: #777;
+}
+
+/* Profile Section */
+.profile-section {
+    flex: 1.5;
+    background: #fff;
+    border-radius: 15px; /* Softer rounded corners */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px; /* Increased padding for breathing space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-section::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 120px;
+    height: 120px;
+    background: rgba(0, 123, 255, 0.1); /* Decorative circle */
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2; /* Above decorative elements */
+}
+
+.profile-picture {
+    width: 150px; /* Larger size for modern look */
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 3px solid #007bff; /* Accent border */
+}
+
+.profile-details {
+    text-align: center;
+}
+
+.profile-details h2 {
+    margin: 10px 0 5px;
+    font-size: 28px;
+    color: #333;
+    font-weight: bold;
+}
+
+.profile-details p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 16px;
+}
+
+.create-classroom-btn {
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradient button */
+    color: #fff;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px; /* Larger font size */
+    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
+    z-index: 2;
+}
+
+.create-classroom-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #003d80); /* Darker gradient on hover */
+    transform: scale(1.05); /* Interactive scaling */
+}
+
+/* Classroom Section */
+.classroom-section {
+    flex: 2.5;
+    width: 100%; /* Keep responsive width */
+    max-width: 1200px; /* Prevent excessive horizontal stretching */
+    background: linear-gradient(135deg, #28a745, #218838); /* Gradient for green */
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.classroom-section h3 {
+    color: #fff;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    background: #007bff;
+    color: #fff;
+    font-size: 16px;
+}
+
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.clickable-row:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Popup Styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.popup-content h3 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.popup-content input,
+.popup-content textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.popup-buttons button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.popup-buttons button:first-child {
+    background: #007bff;
+    color: #fff;
+}
+
+.popup-buttons button:first-child:hover {
+    background: #0056b3;
+}
+
+.popup-buttons button:last-child {
+    background: #ccc;
+    color: #333;
+}
+
+.popup-buttons button:last-child:hover {
+    background: #aaa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-page {
+        flex-direction: column;
+    }
+
+    .profile-section,
+    .classroom-section {
+        width: 100%;
+    }
+
+    .create-classroom-btn {
+        width: 100%;
+    }
+}
