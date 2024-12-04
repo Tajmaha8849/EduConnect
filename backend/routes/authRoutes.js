@@ -1,5 +1,6 @@
+
 const express = require('express');
-const User = require('../models/userModel');
+const User = require('../models/userModel')
 const Verification = require('../models/verificationModel');
 const responseFunction = require('../utils/responseFunction');
 const nodemailer = require('nodemailer');
@@ -10,9 +11,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authTokenHandler = require('../middlewares/checkAuthToken');
 
-const isProduction = process.env.NODE_ENV === 'production';
 
-// Mailer function with detailed logging
+const isProduction = process.env.NODE_ENV === 'production';
 const mailer = async (recieveremail, code) => {
     try {
         let transporter = nodemailer.createTransport({
@@ -28,6 +28,7 @@ const mailer = async (recieveremail, code) => {
                 rejectUnauthorized: false, // Ignore self-signed certificate errors
             },
         });
+        
 
         let info = await transporter.sendMail({
             from: `Team EduConnect <${process.env.COMPANY_EMAIL}>`,
@@ -45,44 +46,36 @@ const mailer = async (recieveremail, code) => {
     }
 };
 
-// Send OTP route
+
 router.post('/sendotp', async (req, res, next) => {
     const { email } = req.body;
     if (!email) {
-        return responseFunction(res, 400, "Email is required", null, false);
+        return responseFunction(res, 400, "Email is required", null, false)
     }
 
     try {
-        // Delete previous OTP for the same email
-        await Verification.deleteMany({ email: email });
-
-        // Generate a new OTP code
+        await Verification.deleteMany({ email: email })
         const code = Math.floor(100000 + Math.random() * 900000);
-
-        // Send OTP email
         const isSent = await mailer(email, code);
-        
-        // Save new OTP to the database
+
         const newVerification = new Verification({
             email: email,
             code: code
-        });
+        })
 
         await newVerification.save();
-
-        // If OTP wasn't sent, return an error response
         if (!isSent) {
-            return responseFunction(res, 500, "Internal server error while sending OTP", null, false);
+            return responseFunction(res, 500, "Internal server error", null, false)
         }
 
-        return responseFunction(res, 200, "OTP sent successfully", null, true);
-    } catch (err) {
-        console.error("Error in /sendotp:", err);  // Log full error details
-        return responseFunction(res, 500, "Internal server error", err, false);
+        return responseFunction(res, 200, "OTP sent successfully", null, true)
     }
-});
+    catch (err) {
+        return responseFunction(res, 500, "Internal server error", err, false)
+    }
+})
 
-// Register route
+
 router.post('/register', async (req, res) => {
     const { name, email, password, otp, role } = req.body;
     if (!name || !email || !password || !otp || !role) {
@@ -92,9 +85,7 @@ router.post('/register', async (req, res) => {
     if (password.length < 6) {
         return responseFunction(res, 400, 'Password should be at least 6 characters long', null, false);
     }
-
     try {
-        // Check if user already exists
         let user = await User.findOne({ email });
         let verificationQueue = await Verification.findOne({ email });
 
@@ -105,15 +96,12 @@ router.post('/register', async (req, res) => {
         if (!verificationQueue) {
             return responseFunction(res, 400, 'Please send OTP first', null, false);
         }
-
-        // Verify the OTP
         const isMatch = await bcrypt.compare(otp, verificationQueue.code);
 
         if (!isMatch) {
             return responseFunction(res, 400, 'Invalid OTP', null, false);
         }
 
-        // Create and save new user
         user = new User({
             name,
             email,
@@ -124,17 +112,16 @@ router.post('/register', async (req, res) => {
         await user.save();
         await Verification.deleteOne({ email });
 
-        // Generate auth tokens
+
         const authToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
         const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: '10d' });
 
-        // Set cookies for authentication
         res.cookie('authToken', authToken, {
             httpOnly: true,
             secure: isProduction, 
             sameSite: 'none',
         });
-
+        
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: isProduction, 
@@ -144,13 +131,12 @@ router.post('/register', async (req, res) => {
         user.password = undefined;
         return responseFunction(res, 200, 'Registered successfully', { user, authToken, refreshToken }, true);
 
-    } catch (err) {
-        console.error("Error in /register:", err);  // Log full error details
+    }
+    catch (err) {
         return responseFunction(res, 500, 'Internal server error', err, false);
     }
-});
+})
 
-// Login route
 router.post('/login', async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -161,20 +147,23 @@ router.post('/login', async (req, res, next) => {
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
+
             return responseFunction(res, 400, 'Invalid credentials', null, false);
         }
+        const authToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' })
+        const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: '10d' })
 
-        const authToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
-        const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: '10d' });
 
         user.password = undefined;
 
+        // res.cookie('authToken', authToken, { httpOnly: true, secure: true, sameSite: 'none' })
+        // res.cookie('refreshToken', refreshToken, { httpOnly: true, secure:true, sameSite: 'none' })
         res.cookie('authToken', authToken, {
             httpOnly: true,
             secure: isProduction, 
             sameSite: 'none',
         });
-
+        
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: isProduction, 
@@ -183,41 +172,43 @@ router.post('/login', async (req, res, next) => {
 
         return responseFunction(res, 200, 'Logged in successfully', { user, authToken, refreshToken }, true);
 
-    } catch (err) {
-        console.error("Error in /login:", err);  // Log full error details
+    }
+    catch (err) {
         return responseFunction(res, 500, 'Internal server error', err, false);
     }
-});
+})
 
-// Check login status
+
 router.get('/checklogin', authTokenHandler, async (req, res, next) => {
-    console.log('check login', req.message);
+    console.log('check login',req.message)
     
     res.json({
         ok: req.ok,
         message: req.message,
         userId: req.userId
-    });
-});
+    })
+}
+)
 
-// Get user details
+
 router.get('/getuser', authTokenHandler, async (req, res, next) => {
+
     try {
         const user = await User.findById(req.userId).select('-password');
+
 
         if (!user) {
             return responseFunction(res, 400, 'User not found', null, false);
         }
-
         return responseFunction(res, 200, 'User found', user, true);
 
-    } catch (err) {
-        console.error("Error in /getuser:", err);  // Log full error details
+    }
+    catch (err) {
         return responseFunction(res, 500, 'Internal server error', err, false);
     }
-});
+})
 
-// Logout route
+
 router.get('/logout', authTokenHandler, async (req, res, next) => {
     res.clearCookie('authToken');
     res.clearCookie('refreshToken');
@@ -225,7 +216,7 @@ router.get('/logout', authTokenHandler, async (req, res, next) => {
     res.json({
         ok: true,
         message: 'Logged out successfully'
-    });
-});
+    })
+})
 
-module.exports = router;
+module.exports = router;    
