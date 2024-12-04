@@ -22,7 +22,7 @@
     ],
     "env": {
       "PORT": "3000", 
-      "FRONTEND_URL": "https://your-frontend-url.vercel.app", 
+      "FRONTEND_URL": "https://https://edu-connect-sigma.vercel.app", 
       "JWT_SECRET_KEY": "sjdghjbagyuascrkuba", 
       "JWT_REFRESH_SECRET_KEY": "ghskbvjdrsubykjh", 
       "COMPANY_EMAIL": "shubhamprajapati9537@gmail.com.com",
