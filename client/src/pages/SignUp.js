@@ -54,36 +54,40 @@ const SignUp = () => {
 
 
     const handleSendOtp = async () => {
-        if (!email) {
-            toast.error('Please enter your email');
-            return;
-        }
+  if (!email) {
+    toast.error('Please enter your email');
+    return;
+  }
 
-        try {
-            setLoading(true); // Show loading state
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/sendotp`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }), // Send the email as the body
-                credentials: 'include', // Include cookies for CORS
-            })
+  try {
+    setLoading(true); // Show loading state
 
-            const data = await response.json();
-            if (response.ok) {
-                toast.success('OTP sent successfully');
-            }
-            else {
-                toast.error(data.message || 'Failed to send OTP');
-            }
-        }
-        catch (error) {
-            toast.error('Error sending OTP');
-        } finally {
-            setLoading(false); // Reset loading state
-        }
-    };
+    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/sendotp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }), // Send the email as the body
+      credentials: 'include', // Include cookies for CORS
+    });
+
+    // Check if the response is okay and handle accordingly
+    if (response.ok) {
+      const data = await response.json();
+      toast.success('OTP sent successfully');
+    } else {
+      const data = await response.json();
+      toast.error(data.message || 'Failed to send OTP');
+    }
+  } catch (error) {
+    // Handle any network or unexpected errors
+    console.error("Error sending OTP:", error);
+    toast.error('Error sending OTP');
+  } finally {
+    setLoading(false); // Reset loading state
+  }
+};
+
 
   return (
     <div className="signup-page">
