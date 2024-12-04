@@ -16,14 +16,15 @@ export const AuthProvider = ({ children }) => {
     const expiration = localStorage.getItem('expiration');
 
     if (user && expiration) {
-      const now = new Date().getTime();
+      const now = Date.now();
+
       if (now < expiration) {
         setAuth({ user, loading: false });
 
-        // Set a timeout to automatically log out when the session expires
+        // Automatically log out when the session expires
         setTimeout(() => logout(false), expiration - now);
       } else {
-        logout(false); // Expired session
+        logout(false); // Session has already expired
       }
     } else {
       setAuth({ user: null, loading: false });
@@ -31,12 +32,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData, sessionDuration = 3600000) => { // Default duration: 1 hour
-    const expiration = new Date().getTime() + sessionDuration; // Expiration time in milliseconds
+    const expiration = Date.now() + sessionDuration;
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('expiration', expiration.toString());
+
     setAuth({ user: userData, loading: false });
 
-    // Set a timeout to automatically log out after the session duration
+    // Set timeout for automatic logout
     setTimeout(() => logout(false), sessionDuration);
   };
 
@@ -56,11 +58,11 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ auth, login, logout }}>
       {auth.loading ? (
-        <div>Loading...</div> // Replace with a spinner/loader if needed
+        <div>Loading...</div> // You can replace this with a custom spinner/loader
       ) : (
         <>
           {children}
-          <ToastContainer /> {/* Add ToastContainer here */}
+          <ToastContainer /> {/* Enables toast notifications */}
         </>
       )}
     </AuthContext.Provider>
