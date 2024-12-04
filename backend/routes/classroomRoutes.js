@@ -11,18 +11,15 @@ const router = express.Router();
 const mailer = async (receiverEmail, code) => {
     try {
         let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false, // Use TLS
-            requireTLS: true,
-            auth: {
-                user: process.env.COMPANY_EMAIL,
-                pass: process.env.GMAIL_APP_PASSWORD,
-            },
-            tls: {
-                rejectUnauthorized: false,
-            },
-        });
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // TLS
+    requireTLS: true,
+    auth: {
+        user: "shubhamprajapati9537@gmail.com", // Your Gmail address
+        pass: "jgxkmkvlncvmsqwk",  // Your App Password
+    },
+});
 
         let info = await transporter.sendMail({
             from: "Team EduConnect <no-reply@mastersgang.com>",
