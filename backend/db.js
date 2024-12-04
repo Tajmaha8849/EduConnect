@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // MongoDB Connection String
-const MONGO_URL = process.env.MONGO_URL 
+const MONGO_URL = process.env.MONGO_URL;
 
 // Database Name
 const DB_NAME = process.env.DB_NAME || "Forum";
@@ -13,15 +13,13 @@ const DB_NAME = process.env.DB_NAME || "Forum";
 // Check for missing required environment variables
 if (!MONGO_URL || !DB_NAME) {
   console.error('❌ Missing MONGO_URL or DB_NAME in environment variables.');
-  process.exit(1); // Exit the application if the config is invalid
+  process.exit(1); // Exit the application if the configuration is invalid
 }
 
-// Mongoose connection options
+// Connection options (no longer need `useNewUrlParser` or `useUnifiedTopology` for Mongoose 6+)
 const connectionOptions = {
   dbName: DB_NAME,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  authSource: 'admin', // Ensures proper authentication
+  authSource: 'admin', // Optional: only if your MongoDB requires authSource
 };
 
 // Connect to MongoDB Atlas
@@ -31,7 +29,7 @@ mongoose
     console.log('✅ Database Connected Successfully!');
   })
   .catch((err) => {
-    console.error('❌ Error connecting to DB:', err);
+    console.error('❌ Error connecting to DB:', err.message);
     process.exit(1); // Exit on connection failure
   });
 
