@@ -1,0 +1,27 @@
+{
+  "rewrites": [
+    {
+      "source": "/auth/:path*", 
+      "destination": "https://edu-connect-api.vercel.app/auth/:path*"
+    },
+    {
+      "source": "/class/:path*", 
+      "destination": "https://edu-connect-api.vercel.app/class/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)", 
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://your-frontend-url.vercel.app" 
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        }
+      ]
+    }
+  ]
+}
