@@ -1,4 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AuthContext = createContext();
 
@@ -19,9 +21,9 @@ export const AuthProvider = ({ children }) => {
         setAuth({ user, loading: false });
 
         // Set a timeout to automatically log out when the session expires
-        setTimeout(() => logout(), expiration - now);
+        setTimeout(() => logout(false), expiration - now);
       } else {
-        logout(); // Expired session
+        logout(false); // Expired session
       }
     } else {
       setAuth({ user: null, loading: false });
@@ -35,13 +37,20 @@ export const AuthProvider = ({ children }) => {
     setAuth({ user: userData, loading: false });
 
     // Set a timeout to automatically log out after the session duration
-    setTimeout(() => logout(), sessionDuration);
+    setTimeout(() => logout(false), sessionDuration);
   };
 
-  const logout = () => {
+  const logout = (showToast = true) => {
     localStorage.removeItem('user');
     localStorage.removeItem('expiration');
     setAuth({ user: null, loading: false });
+
+    if (showToast) {
+      toast.success('Logout Successful!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+      });
+    }
   };
 
   return (
@@ -49,7 +58,10 @@ export const AuthProvider = ({ children }) => {
       {auth.loading ? (
         <div>Loading...</div> // Replace with a spinner/loader if needed
       ) : (
-        children
+        <>
+          {children}
+          <ToastContainer /> {/* Add ToastContainer here */}
+        </>
       )}
     </AuthContext.Provider>
   );
