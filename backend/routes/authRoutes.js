@@ -34,8 +34,8 @@ const mailer = async (recieveremail, code) => {
         let info = await transporter.sendMail({
             from: `Team EduConnect <${process.env.COMPANY_EMAIL}>`,
             to: recieveremail,
-            subject: "OTP for EduConnect",
-            text: `Your OTP is ${code}`,
+            subject: "OTP from EduConnect",
+            text: `To Make Registration.Your OTP is ${code}`,
             html: `<b>Your OTP is ${code}</b>`,
         });
 
