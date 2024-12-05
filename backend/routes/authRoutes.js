@@ -36,9 +36,9 @@ const mailer = async (recieveremail, code) => {
             to: recieveremail,
             subject: "OTP from EduConnect",
             text: `To Make Registration.Your OTP is ${code}`,
-            html: `<b>Your OTP is ${code}</b>`,
+            html: `<b>To Make Registration.Your OTP is ${code}</b>`,
         });
-
+ 
         console.log("Message sent: %s", info.messageId);
         return true;
     } catch (error) {
