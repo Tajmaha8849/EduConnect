@@ -25,8 +25,8 @@ const mailer = async (receiverEmail, code) => {
             from: "Team EduConnect <no-reply@mastersgang.com>",
             to: receiverEmail,
             subject: "OTP from EduConnect",
-            text: `To Join a Classroom. Your OTP is ${code}`,
-            html: `<b>Your OTP is ${code}</b>`,
+            text: `To Join a Classroom Your OTP is ${code}`,
+            html: `<b>To Join a Classroom requested by the Student. OTP for the requested classroom is ${code}</b>`,
         });
 
         console.log("Message sent: %s", info.messageId);
