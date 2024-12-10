@@ -1,60 +1,68 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const dotenv = require('dotenv');
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import userRouter from './routes/user.route.js';
+import authRouter from './routes/auth.route.js';
+import listingRouter from './routes/listing.route.js';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
-// Load environment variables
 dotenv.config();
 
+// Ensure MONGO_URI is set
+if (!process.env.MONGO) {
+  throw new Error('MONGO_URI is not defined');
+}
+
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB!');
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });
+
 const app = express();
-const port = process.env.PORT || 3000;
 
-// Import database connection
-require('./db');
-
-// Allowed origins for CORS (ensure FRONTEND_URL is set in .env file)
-
-
-// CORS Middleware
+// CORS configuration
 app.use(
-    cors({
-        origin: 'https://edu-connect-sigma.vercel.app', // Frontend URL
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
-        credentials: true, // Allow credentials (cookies)
-    })
+  cors({
+    origin: process.env.FRONTEND_URL || 'https://your-frontend-url.vercel.app',
+    credentials: true,
+  })
 );
 
-// Middleware for parsing request bodies and cookies
-app.use(bodyParser.json());
-app.use(
-    cookieParser({
-        httpOnly: true, // Secure HTTP-only cookies
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        sameSite: 'none', // Allow cross-origin cookies
-        maxAge: 1000 * 60 * 60 * 24 * 7, // Cookies last for 7 days
-    })
-);
+app.use(express.json());
+app.use(cookieParser());
 
-// Import routes
-const authRoutes = require('./routes/authRoutes');
-const classroomRoutes = require('./routes/classroomRoutes');
+// Health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('API is running!');
+});
 
-// Define routes
-app.use('/auth', authRoutes);
-app.use('/class', classroomRoutes);
+// API routes
+app.use('/api/user', userRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/listing', listingRouter);
 
-// Test route
+// Root route
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+  res.send('Welcome to the API!');
 });
 
-// Example user data endpoint
-app.get('/getuserdata', (req, res) => {
-    res.send('Harshal Jain, 45, Male');
+// Error handling middleware
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+  });
 });
 
-// Start the server
+// Set dynamic port
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Backend app listening on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
