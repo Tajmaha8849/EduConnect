@@ -1,58 +1,74 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-//import userRouter from './routes/user.route.js';
-import authRouter from './routes/auth.route.js';
-import listingRouter from './routes/listing.route.js';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
+const express = require('express');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const dotenv = require('dotenv');
 
+// Load environment variables
 dotenv.config();
 
-// Ensure MONGO_URI is set
-if (!process.env.MONGO) {
-  throw new Error('MONGO_URI is not defined');
-}
-
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Connected to MongoDB!');
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
-
 const app = express();
+const port = process.env.PORT || 3000;
 
-// CORS configuration
+// Import and initialize the database connection
+require('./db');
+
+// CORS Configuration
+const allowedOrigins = [process.env.FRONTEND_URL]; // Add more origins if needed
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'https://edu-connect-sigma.vercel.app',
-    credentials: true,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or Postman) and explicitly listed origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST', 'DELETE', 'PUT'], // Explicitly allowed methods
+    credentials: true, // Allow cookies
   })
 );
 
-app.use(express.json());
-app.use(cookieParser());
+// Middleware
+app.use(bodyParser.json()); // Parse JSON request bodies
+app.use(
+  cookieParser({
+    httpOnly: true, // Secure cookie handling
+    secure: false, // Change to `true` in production with HTTPS
+    sameSite: 'none', // Enable cross-site cookie sharing
+    maxAge: 1000 * 60 * 60 * 24 * 7, // Set cookie expiry to 7 days
+    signed: true, // Enable signed cookies
+  })
+);
 
-// Health check route
-app.get('/health', (req, res) => {
-  res.status(200).send('API is running!');
-});
+// Routes
+const authRoutes = require('./routes/authRoutes');
+const classroomRoutes = require('./routes/classroomRoutes');
 
-// API routes
-//app.use('/api/user', userRouter);
-app.use('/api/auth', authRouter);
-app.use('/api/listing', listingRouter);
+app.use('/auth', authRoutes);
+app.use('/class', classroomRoutes);
 
-// Root route
+// Default Route
 app.get('/', (req, res) => {
-  res.send('Welcome to the API!');
+  res.send('Hello World!');
 });
 
-// Error handling middleware
+// Example API for testing
+app.get('/getuserdata', (req, res) => {
+  res.json({
+    name: 'Harshal Jain',
+    age: 45,
+    gender: 'Male',
+  });
+});
+
+// Error handling middleware for invalid routes
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: 'Route not found' });
+});
+
+// Global error handling middleware
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
@@ -61,8 +77,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Set dynamic port
-const port = process.env.PORT || 3000;
+// Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Mastersgang backend app listening on port ${port}`);
 });
