@@ -14,7 +14,11 @@ const port = process.env.PORT || 3000;
 require('./db');
 
 // CORS Configuration
-const allowedOrigins = "https://edu-connect-sigma.vercel.app"; // Add more origins if needed
+const allowedOrigins = [
+  "https://edu-connect-sigma.vercel.app",
+  "http://localhost:3000", 
+];
+
 app.use(
   cors({
     origin: function (origin, callback) {
