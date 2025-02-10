@@ -17,7 +17,7 @@ const mailer = async (receiverEmail, code) => {
     requireTLS: true,
     auth: {
         user: "shubhamprajapati9537@gmail.com", // Your Gmail address
-        pass: "jgxkmkvlncvmsqwk",  // Your App Password
+        pass: "atexcqhnyrmakewx",  // Your App Password
     },
 });
 
