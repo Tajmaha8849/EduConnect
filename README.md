@@ -3,7 +3,7 @@
 EduConnexT is a full-stack web platform that enables seamless interaction between **Teachers** and **Students** for virtual classroom management. It supports **role-based access**, **email OTP verification**, **class creation**, **document uploads**, and **student class joining via request/approval system**.
 
 ## 🔗 Live Demo
-👉 [https://educonnext.vercel.app](https://educonnext.vercel.app) *(Add this if hosted)*
+👉 [https://edu-connect-sigma.vercel.app](https://edu-connect-sigma.vercel.app) *(Add this if hosted)*
 
 ---
 
